@@ -36,10 +36,13 @@ class DB
       foreach ($this->db->query('Call selectBookAuthor()') as $number=>$row){
         $values['count'] = $row['number'];
         $values[$number]['number'] = $row['number'];
+        $values[$number]['book_id'] = $row['bookID'];
         $values[$number]['book_title'] = $row['bookTitle'];
         $values[$number]['author_first_name'] = $row['firstName'];
         $values[$number]['author_middle_name'] = $row['middleName'];
         $values[$number]['author_last_name'] = $row['lastName'];
+        $values[$number]['book_checked_out'] = $row['bookCheckOut'];
+        $values[$number]['book_checked_out_who'] = $row['bookCheckedOutWho'];
       }
 
       return $values;
