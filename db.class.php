@@ -56,4 +56,18 @@ class DB
       }
       return $value;
     }
+
+    /** 
+    *** Call the stored procedure checkInBook()
+    **/
+    public function checkInBook($bookID){
+      $this->db->query("Call checkInBook($bookID)");
+    }
+
+    /** 
+    *** Call the stored procedure checkOutBook()
+    **/
+    public function checkOutBook($bookID, $name){
+      $this->db->query("Call checkOutBook($bookID, $name)");
+    }
 }
