@@ -28,23 +28,32 @@ class DB
     }
 
     /**
-    * Calls the stored procedure selectBookAuthor() and returns the results as an array
-    */
+    *** Calls the stored procedure selectBookAuthor() and returns the results as an array
+    **/
     public function getBookAuthors() {
 
       $values = [];
       foreach ($this->db->query('Call selectBookAuthor()') as $number=>$row){
-        $values['count'] = $row['number'];
-        $values[$number]['number'] = $row['number'];
-        $values[$number]['book_id'] = $row['bookID'];
-        $values[$number]['book_title'] = $row['bookTitle'];
-        $values[$number]['author_first_name'] = $row['firstName'];
-        $values[$number]['author_middle_name'] = $row['middleName'];
-        $values[$number]['author_last_name'] = $row['lastName'];
-        $values[$number]['book_checked_out'] = $row['bookCheckOut'];
-        $values[$number]['book_checked_out_who'] = $row['bookCheckedOutWho'];
+        $values['books'][$number]['number'] = $row['number'];
+        $values['books'][$number]['book_id'] = $row['bookID'];
+        $values['books'][$number]['book_title'] = $row['bookTitle'];
+        $values['books'][$number]['author_first_name'] = $row['firstName'];
+        $values['books'][$number]['author_middle_name'] = $row['middleName'];
+        $values['books'][$number]['author_last_name'] = $row['lastName'];
+        $values['books'][$number]['book_checked_out'] = $row['bookCheckOut'];
+        $values['books'][$number]['book_checked_out_who'] = $row['bookCheckedOutWho'];
       }
 
       return $values;
+    }
+
+    /** 
+    *** Call the stored procedure countBooks() and returns the result as a number
+    **/
+    public function countBooks() {
+      foreach($this->db->query('Call countBooks()') as $row){
+        $value['count'] = $row[0];
+      }
+      return $value;
     }
 }
