@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Deploy DB Repository
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   deploy:
-    name: Push DB files to Lightsail instance
+    name: Push DB files to the Lightsail instance
     runs-on: ubuntu-latest
     environment: production
 
@@ -19,7 +19,7 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v3
 
-      - name: Deploy to my Lightsail instance
+      - name: Deploy to the Lightsail instance
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}

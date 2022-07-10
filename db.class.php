@@ -70,4 +70,18 @@ class DB
     public function checkOutBook($bookID, $name){
       $this->db->query("Call checkOutBook($bookID, $name)");
     }
+
+    /** 
+    *** Call the stored procedure addBookAuthor()
+    **/
+    public function addBook($bookTitle, $authorFirstname, $authorMiddleName, $authorLastName){
+      $this->db->query("CALL home_intranet.addBookAuthor($bookTitle,$authorFirstname,$authorMiddleName,$authorLastName)");
+    }
+
+    /** 
+    *** Call the stored procedure deleteBookAuthor()
+    **/
+    public function deleteBook($bookID){
+      $this->db->query("CALL home_intranet.deleteBookAuthor($bookID)");
+    }
 }
