@@ -28,7 +28,7 @@ class DB
     }
 
     /**
-    *** Calls the stored procedure selectBookAuthor() and returns the results as an array
+    *** Calls the stored procedure listBooksAuthors() and returns the results as an array
     **/
     public function getBookAuthors() {
 
@@ -41,6 +41,21 @@ class DB
         $values['books'][$number]['author_first_name'] = $row['firstName'];
         $values['books'][$number]['author_middle_name'] = $row['middleName'];
         $values['books'][$number]['author_last_name'] = $row['lastName'];
+      }
+
+      return $values;
+    }
+
+    /**
+    *** Calls the stored procedure listAuthors()
+    **/
+    public function getAuthors() {
+
+      $values = [];
+      foreach ($this->db->query('Call listAuthors()') as $number=>$row){
+        $values['authors'][$number]['first_name'] = $row['firstName'];
+        $values['authors'][$number]['middle_name'] = $row['middleName'];        
+        $values['authors'][$number]['last_name'] = $row['lastName'];
       }
 
       return $values;
