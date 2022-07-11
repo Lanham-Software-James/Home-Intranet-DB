@@ -33,15 +33,14 @@ class DB
     public function getBookAuthors() {
 
       $values = [];
-      foreach ($this->db->query('Call selectBookAuthor()') as $number=>$row){
-        $values['books'][$number]['number'] = $row['number'];
+      foreach ($this->db->query('Call listBooksAuthors()') as $number=>$row){
         $values['books'][$number]['book_id'] = $row['bookID'];
-        $values['books'][$number]['book_title'] = $row['bookTitle'];
+        $values['books'][$number]['book_title'] = $row['bookTitle'];        
+        $values['books'][$number]['book_checked_out'] = $row['checkedOut'];
+        $values['books'][$number]['book_checked_out_who'] = $row['checkedOutWho'];
         $values['books'][$number]['author_first_name'] = $row['firstName'];
         $values['books'][$number]['author_middle_name'] = $row['middleName'];
         $values['books'][$number]['author_last_name'] = $row['lastName'];
-        $values['books'][$number]['book_checked_out'] = $row['bookCheckOut'];
-        $values['books'][$number]['book_checked_out_who'] = $row['bookCheckedOutWho'];
       }
 
       return $values;
