@@ -140,6 +140,21 @@ class DB
       return $values;
     }
 
+    /**
+     * Call the stored procedure home_intranet.`plants.listPlantLocationsAll`
+     */
+    public function getPlantLocations() {
+
+      $values = [];
+
+      foreach ($this->db->query('Call home_intranet.`plants.listPlantLocationsAll`()') as $number=>$row){
+        $values['data'][$number]['location_id'] = $row['locationID'];
+        $values['data'][$number]['location_name'] = $row['locationName'];
+      }
+
+      return $values;
+    }
+
     /**   
     *** Call the stored procedure home_intranet.`plants.addPlant`()
     **/
