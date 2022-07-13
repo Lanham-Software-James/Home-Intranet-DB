@@ -46,6 +46,7 @@ class DB
         $values['data'][$number]['book_title'] = $row['bookTitle'];        
         $values['data'][$number]['book_checked_out'] = $row['checkedOut'];
         $values['data'][$number]['book_checked_out_who'] = $row['checkedOutWho'];
+        $values['data'][$number]['author_id'] = $row['authorID'];
         $values['data'][$number]['author_first_name'] = $row['firstName'];
         $values['data'][$number]['author_middle_name'] = $row['middleName'];
         $values['data'][$number]['author_last_name'] = $row['lastName'];
@@ -97,8 +98,8 @@ class DB
     /** 
     *** Call the stored procedure deleteBookAuthor()
     **/
-    public function deleteBook($bookID){
-      $this->db->query("CALL home_intranet.`books.deleteBookAuthor`($bookID)");
+    public function deleteBook($bookID, $authorID){
+      $this->db->query("CALL home_intranet.`books.deleteBookAuthor`($bookID, $authorID)");
     }
 
     /**
