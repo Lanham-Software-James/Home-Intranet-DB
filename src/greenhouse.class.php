@@ -67,7 +67,12 @@ class Greenhouse extends DB {
   *** Call the stored procedure home_intranet.`plants.addPlant`()
   **/
   public function addPlant($plantName, $plantSpecies, $plantLocation){
-    $this->db->query("CALL home_intranet.`plants.addPlant`($plantName, $plantSpecies, $plantLocation)");
+
+    $newPlantName = $this->db->quote($plantName);
+    $newPlantSpecies = $this->db->quote($plantSpecies);
+    $newPlantLocation = $this->db->quote($plantLocation);
+
+    $this->db->query("CALL home_intranet.`plants.addPlant`($newPlantName, $newPlantSpecies, $newPlantLocation)");
   }
   
   /** 

@@ -67,14 +67,21 @@ class Library extends DB {
    *** Call the stored procedure checkOutBook()
    **/
    public function checkOutBook($bookID, $name){
-     $this->db->query("Call home_intranet.`books.checkOutBook`($bookID, $name)");
+    $newName = $this->db->quote($name);
+    $this->db->query("Call home_intranet.`books.checkOutBook`($bookID, $newName)");
    }
   
    /** 
    *** Call the stored procedure addBookAuthor()
    **/
-   public function addBook($bookTitle, $authorFirstname, $authorMiddleName, $authorLastName){
-     $this->db->query("CALL home_intranet.`books.addBookAuthor`($bookTitle,$authorFirstname,$authorMiddleName,$authorLastName)");
+   public function addBook($bookTitle, $authorFirstName, $authorMiddleName, $authorLastName){
+    
+    $newBookTitle = $this->db->quote($bookTitle);
+    $newAuthorFirstname = $this->db->quote($authorFirstName);
+    $newAuthorMiddleName = $this->db->quote($authorMiddleName);
+    $newAuthorLastName = $this->db->quote($authorLastName);
+
+     $this->db->query("CALL home_intranet.`books.addBookAuthor`($newBookTitle,$newAuthorFirstname,$newAuthorMiddleName,$newAuthorLastName)");
    }
   
    /** 
