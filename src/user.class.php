@@ -33,24 +33,15 @@ class User extends DB {
   }
 
   /** 
-  *** Call the stored procedure home_intranet.`users.countUsers`()
-  **/
-  public function countUsers(){
-
-    $values = [];
-    foreach ($this->db->query("Call home_intranet.`users.listUsersAll`()") as $row){
-      $values['count'] = $row['count'];
-    }
-    return $values;
-  }
-
-
-  /** 
   *** Call the stored procedure home_intranet.`users.listUsersAll`()
   **/
   public function getUsers(){
 
     $values = [];
+    foreach ($this->db->query("Call home_intranet.`users.countUsers`()") as $row){
+      $values['count'] = $row['count'];
+    }
+
     foreach ($this->db->query("Call home_intranet.`users.listUsersAll`()") as $number=>$row){
       $values[$number]['user_id'] = $row['userID'];
       $values[$number]['first_name'] = $row['firstName'];
