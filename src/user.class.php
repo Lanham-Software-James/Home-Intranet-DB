@@ -6,19 +6,6 @@ require_once __DIR__.'/../db.class.php';
 class User extends DB {
 
   /** 
-  *** Call the stored procedure home_intranet.`users.addUser`()
-  **/
-  public function addUser($userName, $password, $firstName, $lastName, $userRole){
-    $newUserName = $this->db->quote($userName);
-    $newPassword = $this->db->quote($password);
-    $newFirstName = $this->db->quote($firstName);
-    $newLastName = $this->db->quote($lastName);
-    $newUserRole = $this->db->quote($userRole);
-
-    $this->db->query("Call home_intranet.`users.addUser`($newUserName, $newPassword, $newFirstName, $newLastName, $newUserRole)");
-  }
-
-  /** 
   *** Call the stored procedure home_intranet.`users.getUserByUserName`()
   **/
   public function getUserForAuth($userName){
@@ -72,6 +59,27 @@ class User extends DB {
       $values[$number]['role_name'] = $row['roleName'];
     }
     return $values;
+  }
+
+  /** 
+  *** Call the stored procedure home_intranet.`users.addUser`()
+  **/
+  public function addUser($userName, $password, $firstName, $lastName, $userRole){
+    $newUserName = $this->db->quote($userName);
+    $newPassword = $this->db->quote($password);
+    $newFirstName = $this->db->quote($firstName);
+    $newLastName = $this->db->quote($lastName);
+    $newUserRole = $this->db->quote($userRole);
+
+    $this->db->query("Call home_intranet.`users.addUser`($newUserName, $newPassword, $newFirstName, $newLastName, $newUserRole)");
+  }
+
+  /** 
+  *** Call the stored procedure home_intranet.`users.deleteUser`()
+  **/
+  public function deleteUser($userID){
+
+    $this->db->query("Call home_intranet.`users.deleteUser`($userID)");
   }
 
 }
