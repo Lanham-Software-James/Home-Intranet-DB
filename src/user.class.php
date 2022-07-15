@@ -45,5 +45,20 @@ class User extends DB {
     return $values;
   }
 
+  /** 
+  *** Call the stored procedure home_intranet.`users.listUsersAll`()
+  **/
+  public function getUsers(){
+
+    $values = [];
+    foreach ($this->db->query("Call home_intranet.`users.listUsersAll`()") as $row){
+      $values['user_id'] = $row['userID'];
+      $values['first_name'] = $row['firstName'];
+      $values['last_name'] = $row['lastName'];
+      $values['user_name'] = $row['userName'];
+      $values['user_role'] = $row['userRole'];
+    }
+    return $values;
+  }
 
 }
