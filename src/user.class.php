@@ -51,12 +51,12 @@ class User extends DB {
   public function getUsers(){
 
     $values = [];
-    foreach ($this->db->query("Call home_intranet.`users.listUsersAll`()") as $row){
-      $values['user_id'] = $row['userID'];
-      $values['first_name'] = $row['firstName'];
-      $values['last_name'] = $row['lastName'];
-      $values['user_name'] = $row['userName'];
-      $values['user_role'] = $row['userRole'];
+    foreach ($this->db->query("Call home_intranet.`users.listUsersAll`()") as $number=>$row){
+      $values[$number]['user_id'] = $row['userID'];
+      $values[$number]['first_name'] = $row['firstName'];
+      $values[$number]['last_name'] = $row['lastName'];
+      $values[$number]['user_name'] = $row['userName'];
+      $values[$number]['user_role'] = $row['userRole'];
     }
     return $values;
   }
