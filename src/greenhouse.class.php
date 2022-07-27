@@ -65,6 +65,21 @@ class Greenhouse extends DB {
     return $values;
   }
 
+  /**
+   * Call the stored procedure home_intranet.`plants.listWaterFrequencies`
+   */
+  public function getWaterFrequencies() {
+  
+    $values = [];
+  
+    foreach ($this->db->query('Call home_intranet.`plants.listWaterFrequencies`()') as $number=>$row){
+      $values['data'][$number]['frequency_id'] = $row['frequencyID'];
+      $values['data'][$number]['frequency_name'] = $row['frequencyName'];
+    }
+  
+    return $values;
+  }
+
   /**   
   *** Call the stored procedure home_intranet.`plants.waterPlant`()
   **/
@@ -76,13 +91,14 @@ class Greenhouse extends DB {
   /**   
   *** Call the stored procedure home_intranet.`plants.addPlant`()
   **/
-  public function addPlant($plantName, $plantSpecies, $plantLocation){
+  public function addPlant($plantName, $plantSpecies, $plantLocation, $lastWater, $waterFrequency){
 
     $newPlantName = $this->db->quote($plantName);
     $newPlantSpecies = $this->db->quote($plantSpecies);
     $newPlantLocation = $this->db->quote($plantLocation);
+    $newLastWater = $this->db->quote($lastWater);
 
-    $this->db->query("CALL home_intranet.`plants.addPlant`($newPlantName, $newPlantSpecies, $newPlantLocation)");
+    $this->db->query("CALL home_intranet.`plants.addPlant`($newPlantName, $newPlantSpecies, $newPlantLocation, $newLastWater, $waterFrequency)");
   }
   
   /** 
