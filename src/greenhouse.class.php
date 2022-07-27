@@ -28,6 +28,8 @@ class Greenhouse extends DB {
       $values['data'][$number]['plant_name'] = $row['plantName'];        
       $values['data'][$number]['plant_species'] = $row['plantSpecies'];
       $values['data'][$number]['plant_location'] = $row['plantLocation'];
+      $values['data'][$number]['last_watered'] = $row['lastWatered'];
+      $values['data'][$number]['water_frequency'] = $row['waterFrequency'];
     }
   
     return $values;
@@ -61,6 +63,14 @@ class Greenhouse extends DB {
     }
   
     return $values;
+  }
+
+  /**   
+  *** Call the stored procedure home_intranet.`plants.waterPlant`()
+  **/
+  public function waterPlant($plantID){
+
+    $this->db->query("CALL home_intranet.`plants.waterPlant`($plantID)");
   }
 
   /**   
