@@ -23,10 +23,12 @@ class User extends DB {
   /** 
   *** Call the stored procedure home_intranet.`users.getPermissionsByRoleID`()
   **/
-  public function getPermissionsByRoleID($roleID){
+  public function getPermissionsByRole($role){
 
     $values = [];
-    foreach ($this->db->query("Call home_intranet.`users.getPermissionsByRoleID`($roleID)") as $row){
+    $newRole = $this->db->quote($role);
+    
+    foreach ($this->db->query("Call home_intranet.`users.getPermissionsByRole`($newRole)") as $row){
       $values['permissions'] = $row['permissions'];
     }
     return $values;
