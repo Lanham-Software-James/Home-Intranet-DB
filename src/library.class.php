@@ -1,6 +1,8 @@
 <?php
 namespace HomeIntranet\Database;
 
+use Exception;
+
 require_once __DIR__.'/../db.class.php';
 
 class Library extends DB {
@@ -42,17 +44,20 @@ class Library extends DB {
    **/
    public function getAuthors() {
     
-     $values = [];
-     foreach ($this->db->query('Call home_intranet.`books.countAuthors`()') as $number=>$row){
-       $values['count'] = $row['count'];
+    $values = [];
+    try {
+      foreach ($this->db->query('Call home_intranet.`books.countAuthors`()') as $number=>$row){
+        $values['count'] = $row['count'];
+      }
+
+      foreach ($this->db->query('Call home_intranet.`books.listAuthorsAll`()') as $number=>$row){
+        $values['data'][$number]['first_name'] = $row['firstName'];
+        $values['data'][$number]['middle_name'] = $row['middleName'];        
+        $values['data'][$number]['last_name'] = $row['lastName'];
+      }
+     } catch (Exception $e) {
+      throw $e;
      }
-    
-     foreach ($this->db->query('Call home_intranet.`books.listAuthorsAll`()') as $number=>$row){
-       $values['data'][$number]['first_name'] = $row['firstName'];
-       $values['data'][$number]['middle_name'] = $row['middleName'];        
-       $values['data'][$number]['last_name'] = $row['lastName'];
-     }
-    
      return $values;
    }
   
@@ -81,7 +86,10 @@ class Library extends DB {
     $newAuthorMiddleName = $this->db->quote($authorMiddleName);
     $newAuthorLastName = $this->db->quote($authorLastName);
 
-     $this->db->query("CALL home_intranet.`books.addBookAuthor`($newBookTitle,$newAuthorFirstname,$newAuthorMiddleName,$newAuthorLastName)");
+    foreach ($this->db->query("CALL home_intranet.`books.addBookAuthor`($newBookTitle,$newAuthorFirstname,$newAuthorMiddleName,$newAuthorLastName)") as $number=>$row){
+      $values['data']['new_book_id'] = $row['newBookID'];
+    }
+    return $values;
    }
   
    /** 
@@ -89,5 +97,14 @@ class Library extends DB {
    **/
    public function deleteBook($bookID, $authorID){
      $this->db->query("CALL home_intranet.`books.deleteBookAuthor`($bookID, $authorID)");
+   }
+
+   /**
+    * Call the stored procedure home_intranet.`books.logActivity`
+    */
+   public function logActivity($userName, $activity, $itemID = 'NULL') {
+    $newUserName = $this->db->quote($userName);
+
+    $this->db->query("CALL home_intranet.`books.logActivity`($newUserName, $activity, $itemID)");
    }
 }

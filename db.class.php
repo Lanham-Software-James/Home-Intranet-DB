@@ -4,7 +4,7 @@ namespace HomeIntranet\Database;
 use \PDO;
 use \PDOException;
 
-class DB
+abstract class DB
 {
   protected $db;
 
@@ -30,4 +30,9 @@ class DB
     
       $this->db = $conn;
     }
+
+    /**
+     * Abstract function to implement logging for users in each DB class
+     */
+    abstract public function logActivity($userName, $activity, $itemID = null);
 }

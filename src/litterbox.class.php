@@ -29,18 +29,32 @@ class LitterBox extends DB {
   }
 
   /**
-  *** Calls the stored procedure home_intranet.`fosters.addFoster`() and returns the results as an array
+  *** Calls the stored procedure home_intranet.`fosters.addFoster`() and returns the new foster ID
   **/
   public function addFoster($fosterName) {
     $newFosterName = $this->db->quote($fosterName);
-    $this->db->query("Call home_intranet.`fosters.addFoster`($newFosterName)");
+
+    foreach($this->db->query("Call home_intranet.`fosters.addFoster`($newFosterName)") as $number => $row){
+      $values['data']['new_foster_id'] = $row['newFosterID'];
+    }
+
+    return $values;
   }
 
   /**
-  *** Calls the stored procedure home_intranet.`fosters.deleteFoster`() and returns the results as an array
+  *** Calls the stored procedure home_intranet.`fosters.deleteFoster`()
   **/
   public function deleteFoster($fosterID) {
     $this->db->query("Call home_intranet.`fosters.deleteFoster`($fosterID)");
+  }
+
+  /**
+  * Call the stored procedure home_intranet.`fosters.logActivity`
+  */
+  public function logActivity($userName, $activity, $itemID = null) {
+    $newUserName = $this->db->quote($userName);
+
+    $this->db->query("CALL home_intranet.`fosters.logActivity`($newUserName, $activity, $itemID)");
   }
 
 }

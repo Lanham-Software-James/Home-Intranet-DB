@@ -98,7 +98,11 @@ class Greenhouse extends DB {
     $newPlantLocation = $this->db->quote($plantLocation);
     $newLastWater = $this->db->quote($lastWater);
 
-    $this->db->query("CALL home_intranet.`plants.addPlant`($newPlantName, $newPlantSpecies, $newPlantLocation, $newLastWater, $waterFrequency)");
+    foreach ($this->db->query("CALL home_intranet.`plants.addPlant`($newPlantName, $newPlantSpecies, $newPlantLocation, $newLastWater, $waterFrequency)") as $number => $row) {
+      $values['data']['new_plant_id'] = $row['newPlantID'];
+    }
+
+    return $values;
   }
   
   /** 
@@ -106,5 +110,14 @@ class Greenhouse extends DB {
   **/
   public function deletePlant($plantID){
     $this->db->query("CALL home_intranet.`plants.deletePlant`($plantID)");
+  }
+
+  /**
+  * Call the stored procedure home_intranet.`plants.logActivity`
+  */
+  public function logActivity($userName, $activity, $itemID = null) {
+    $newUserName = $this->db->quote($userName);
+
+    $this->db->query("CALL home_intranet.`plants.logActivity`($newUserName, $activity, $itemID)");
   }
 }

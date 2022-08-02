@@ -75,7 +75,11 @@ class User extends DB {
     $newLastName = $this->db->quote($lastName);
     $newUserRole = $this->db->quote($userRole);
 
-    $this->db->query("Call home_intranet.`users.addUser`($newUserName, $newPassword, $newFirstName, $newLastName, $newUserRole)");
+    foreach($this->db->query("Call home_intranet.`users.addUser`($newUserName, $newPassword, $newFirstName, $newLastName, $newUserRole)") as $number => $row) {
+      $values['data']['new_user_id'] = $row['newUserID'];
+    }
+
+    return $values;
   }
 
   /** 
@@ -86,4 +90,12 @@ class User extends DB {
     $this->db->query("Call home_intranet.`users.deleteUser`($userID)");
   }
 
+  /**
+  * Call the stored procedure home_intranet.`users.logActivity`
+  */
+  public function logActivity($userName, $activity, $itemID = 'NULL') {
+    $newUserName = $this->db->quote($userName);
+
+    $this->db->query("CALL home_intranet.`users.logActivity`($newUserName, $activity, $itemID)");
+  }
 }
