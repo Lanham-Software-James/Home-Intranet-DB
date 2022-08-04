@@ -49,6 +49,26 @@ class LitterBox extends DB {
   }
 
   /**
+   * Call the stored procedure home_intranet.`fosters.getDisabledFosters`()
+   */
+  public function getDisabledFosters() {
+    foreach($this->db->query("Call home_intranet.`fosters.getDisabledFosters`()") as $number => $row) {
+      $values['data'][$number]['foster_id'] = $row['fosterID'];
+      $values['data'][$number]['foster_date_disabled'] = $row['dateDisabled'];
+    }
+
+    return $values;
+  }
+
+  /** 
+  *** Call the stored procedure home_intranet.`fosters.removeFoster`()
+  **/
+  public function removeFoster($fosterID){
+
+    $this->db->query("Call home_intranet.`fosters.removeFoster`($fosterID)");
+  }
+
+  /**
   * Call the stored procedure home_intranet.`fosters.logActivity`
   */
   public function logActivity($userName, $activity, $itemID = null) {

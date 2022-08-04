@@ -113,6 +113,66 @@ class Greenhouse extends DB {
   }
 
   /**
+   * Call the stored procedure home_intranet.`plants.getDisabledPlants`()
+   */
+  public function getDisabledPlants() {
+    foreach($this->db->query("Call home_intranet.`plants.getDisabledPlants`()") as $number => $row) {
+      $values['data'][$number]['plant_id'] = $row['plantID'];
+      $values['data'][$number]['plant_date_disabled'] = $row['dateDisabled'];
+    }
+
+    return $values;
+  }
+  
+  /** 
+  *** Call the stored procedure home_intranet.`plants.removePlant`()
+  **/
+  public function removePlant($plantID){
+
+    $this->db->query("Call home_intranet.`plants.removePlant`($plantID)");
+  }
+
+  /**
+   * Call the stored procedure home_intranet.`plants.getDisabledSpecies`()
+   */
+  public function getDisabledSpecies() {
+    foreach($this->db->query("Call home_intranet.`plants.getDisabledSpecies`()") as $number => $row) {
+      $values['data'][$number]['species_id'] = $row['speciesID'];
+      $values['data'][$number]['species_date_disabled'] = $row['dateDisabled'];
+    }
+
+    return $values;
+  }
+  
+  /** 
+  *** Call the stored procedure home_intranet.`plants.removeSpecies`()
+  **/
+  public function removeSpecies($speciesID){
+
+    $this->db->query("Call home_intranet.`plants.removeSpecies`($speciesID)");
+  }
+
+  /**
+   * Call the stored procedure home_intranet.`plants.getDisabledLocations`()
+   */
+  public function getDisabledLocations() {
+    foreach($this->db->query("Call home_intranet.`plants.getDisabledLocations`()") as $number => $row) {
+      $values['data'][$number]['location_id'] = $row['locationID'];
+      $values['data'][$number]['location_date_disabled'] = $row['dateDisabled'];
+    }
+
+    return $values;
+  }
+
+  /** 
+  *** Call the stored procedure home_intranet.`plants.removeLocation`()
+  **/
+  public function removeLocation($locationID){
+
+    $this->db->query("Call home_intranet.`plants.removeLocation`($locationID)");
+  }
+
+  /**
   * Call the stored procedure home_intranet.`plants.logActivity`
   */
   public function logActivity($userName, $activity, $itemID = null) {

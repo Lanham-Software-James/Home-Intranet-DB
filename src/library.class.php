@@ -99,6 +99,46 @@ class Library extends DB {
      $this->db->query("CALL home_intranet.`books.deleteBookAuthor`($bookID, $authorID)");
    }
 
+  /**
+   * Call the stored procedure home_intranet.`books.getDisabledBooks`()
+   */
+  public function getDisabledBooks() {
+    foreach($this->db->query("Call home_intranet.`books.getDisabledBooks`()") as $number => $row) {
+      $values['data'][$number]['book_id'] = $row['bookID'];
+      $values['data'][$number]['book_date_disabled'] = $row['dateDisabled'];
+    }
+
+    return $values;
+  }
+
+  /** 
+  *** Call the stored procedure home_intranet.`books.removeBook`()
+  **/
+  public function removeBook($bookID){
+
+    $this->db->query("Call home_intranet.`books.removeBook`($bookID)");
+  }
+
+  /**
+   * Call the stored procedure home_intranet.`books.getDisabledAuthors`()
+   */
+  public function getDisabledAuthors() {
+    foreach($this->db->query("Call home_intranet.`books.getDisabledAuthors`()") as $number => $row) {
+      $values['data'][$number]['author_id'] = $row['authorID'];
+      $values['data'][$number]['author_date_disabled'] = $row['dateDisabled'];
+    }
+
+    return $values;
+  }
+
+  /** 
+  *** Call the stored procedure home_intranet.`books.removeAuthor`()
+  **/
+  public function removeAuthor($authorID){
+
+    $this->db->query("Call home_intranet.`books.removeAuthor`($authorID)");
+  }
+
    /**
     * Call the stored procedure home_intranet.`books.logActivity`
     */

@@ -77,7 +77,7 @@ class User extends DB {
     $newLastName = $this->db->quote($lastName);
     $newUserRole = $this->db->quote($userRole);
 
-    foreach($this->db->query("Call home_intranet.`users.addUser`($newUserName, $newPassword, $newFirstName, $newLastName, $newUserRole)") as $number => $row) {
+    foreach($this->db->query("Call home_intranet.`users.addUser`($newUserName, $newPassword, $newFirstName, $newLastName, $newUserRole)") as $row) {
       $values['data']['new_user_id'] = $row['newUserID'];
     }
 
@@ -90,6 +90,46 @@ class User extends DB {
   public function deleteUser($userID){
 
     $this->db->query("Call home_intranet.`users.deleteUser`($userID)");
+  }
+
+  /**
+   * Call the stored procedure home_intranet.`users.getDisabledUsers`()
+   */
+  public function getDisabledUsers() {
+    foreach($this->db->query("Call home_intranet.`users.getDisabledUsers`()") as $number => $row) {
+      $values['data'][$number]['user_id'] = $row['userID'];
+      $values['data'][$number]['user_date_disabled'] = $row['dateDisabled'];
+    }
+
+    return $values;
+  }
+
+  /** 
+  *** Call the stored procedure home_intranet.`users.removeUser`(IN inputLogID INT)
+  **/
+  public function removeUser($userID){
+
+    $this->db->query("Call home_intranet.`users.removeUser`($userID)");
+  }
+
+  /**
+   * Call the stored procedure home_intranet.`users.getLogsAllCron`()
+   */
+  public function getLogsAllCron() {
+    foreach($this->db->query("Call home_intranet.`users.getLogsAllCron`()") as $number => $row) {
+      $values['data'][$number]['log_id'] = $row['logID'];
+      $values['data'][$number]['log_date_time'] = $row['logDateTime'];
+    }
+
+    return $values;
+  }
+
+  /** 
+  *** Call the stored procedure home_intranet.`users.removeLogEntry`(IN inputLogID INT)
+  **/
+  public function removeLogEntry($logID){
+
+    $this->db->query("Call home_intranet.`users.removeLogEntry`($logID)");
   }
 
   /**
