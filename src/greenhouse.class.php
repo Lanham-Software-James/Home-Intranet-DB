@@ -97,12 +97,27 @@ class Greenhouse extends DB {
     $newPlantSpecies = $this->db->quote($plantSpecies);
     $newPlantLocation = $this->db->quote($plantLocation);
     $newLastWater = $this->db->quote($lastWater);
+    $newWaterFrequency = $this->db->quote($waterFrequency);
 
-    foreach ($this->db->query("CALL home_intranet.`plants.addPlant`($newPlantName, $newPlantSpecies, $newPlantLocation, $newLastWater, $waterFrequency)") as $number => $row) {
+    foreach ($this->db->query("CALL home_intranet.`plants.addPlant`($newPlantName, $newPlantSpecies, $newPlantLocation, $newLastWater, $newWaterFrequency)") as $row) {
       $values['data']['new_plant_id'] = $row['newPlantID'];
     }
 
     return $values;
+  }
+
+  /**   
+  *** Call the stored procedure home_intranet.`plants.editPlant`()
+  **/
+  public function editPlant($plantID, $plantName, $plantSpecies, $plantLocation, $lastWater, $waterFrequency){
+
+    $newPlantName = $this->db->quote($plantName);
+    $newPlantSpecies = $this->db->quote($plantSpecies);
+    $newPlantLocation = $this->db->quote($plantLocation);
+    $newLastWater = $this->db->quote($lastWater);
+    $newWaterFrequency = $this->db->quote($waterFrequency);
+
+    $this->db->query("CALL home_intranet.`plants.editPlant`($plantID, $newPlantName, $newPlantSpecies, $newPlantLocation, $newLastWater, $newWaterFrequency)");
   }
   
   /** 
