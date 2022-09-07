@@ -42,6 +42,15 @@ class LitterBox extends DB {
   }
 
   /**
+  *** Calls the stored procedure home_intranet.`fosters.editFoster`()
+  **/
+  public function editFoster($fosterID, $fosterName, $fosterOrder) {
+    $newFosterName = $this->db->quote($fosterName);
+
+    $this->db->query("Call home_intranet.`fosters.editFoster`($fosterID, $newFosterName, $fosterOrder)");
+  }
+
+  /**
   *** Calls the stored procedure home_intranet.`fosters.deleteFoster`()
   **/
   public function deleteFoster($fosterID) {
